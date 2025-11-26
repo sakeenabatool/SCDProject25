@@ -12,6 +12,16 @@ function addRecord({ name, value }) {
   return newRecord;
 }
 
+function searchRecords(searchTerm) {
+  const data = fileDB.readDB();
+  const lowerSearchTerm = searchTerm.toLowerCase();
+  
+  return data.filter(record => 
+    record.name.toLowerCase().includes(lowerSearchTerm) ||
+    record.id.toString().includes(searchTerm)
+  );
+}
+
 function listRecords() {
   return fileDB.readDB();
 }
@@ -36,5 +46,10 @@ function deleteRecord(id) {
   vaultEvents.emit('recordDeleted', record);
   return record;
 }
-
-module.exports = { addRecord, listRecords, updateRecord, deleteRecord };
+module.exports = { 
+  addRecord, 
+  listRecords, 
+  updateRecord, 
+  deleteRecord, 
+  searchRecords  // Add this line
+};
