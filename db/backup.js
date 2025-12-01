@@ -1,10 +1,17 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('../config');  // Add this line
 
 function createBackup(data) {
+  // Check if backups are enabled
+  if (!config.features.enableBackup) {
+    return { success: false, error: 'Backup feature is disabled' };
+  }
+  
   try {
-    // Create backups directory if it doesn't exist
-    const backupDir = path.join(__dirname, '..', 'backups');
+    // Use config value for backup directory
+    const backupDir = path.join(__dirname, '..', config.paths.backupDir);  // Changed
+    
     if (!fs.existsSync(backupDir)) {
       fs.mkdirSync(backupDir, { recursive: true });
     }

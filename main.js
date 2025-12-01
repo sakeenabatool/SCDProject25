@@ -1,7 +1,7 @@
 const readline = require('readline');
 const db = require('./db');
-require('./events/logger'); // Initialize event logger
-
+require('./events/logger'); 
+const config = require('./config');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -17,8 +17,9 @@ function menu() {
 5. Search Records
 6. Sort Records
 7. Export Data
-8. Create Backup     
-9. Exit
+8. Create Backup
+9. View Vault Statistics  
+10. Exit
 =====================
   `);
 
@@ -113,8 +114,8 @@ function menu() {
         break;
 
       case '7': 
-        const db = require('./db');
-        const result = db.exportToTextFile();
+        const db1 = require('./db');
+        const result = db1.exportToTextFile();
         
         if (result.success) {
           console.log(`Data exported successfully to export.txt`);
@@ -126,9 +127,9 @@ function menu() {
         break;
         
       case '8': 
-        const db = require('./db');
+        const db2 = require('./db');
         console.log('Creating manual backup...');
-        result = db.createManualBackup();
+        result = db2.createManualBackup();
         
         if (result.success) {
           console.log(`Backup created successfully!`);
@@ -138,10 +139,33 @@ function menu() {
         menu();
         break;
         
-      case '9':  // Changed from 8 to 9
+      case '9': 
+        const db3 = require('./db');
+        const stats = db3.getVaultStatistics();
+        
+        console.log('\nVault Statistics:');
+        console.log('--------------------------');
+        
+        if (stats.totalRecords === 0) {
+          console.log('Vault is empty');
+        } else {
+          console.log(`Total Records: ${stats.totalRecords}`);
+          console.log(`Last Modified: ${stats.lastModified}`);
+          console.log(`Longest Name: ${stats.longestName}`);
+          console.log(`Earliest Record: ${stats.earliestRecord}`);
+          console.log(`Latest Record: ${stats.latestRecord}`);
+          console.log(`Date Range: ${stats.dateRange}`);
+        }
+        
+        console.log('--------------------------');
+        menu();
+        break;
+        
+      case '10':  
         console.log('Exiting NodeVault...');
         rl.close();
         break;
+
       default:
         console.log('Invalid option.');
         menu();
