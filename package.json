@@ -1,6 +1,22 @@
 {
+  "name": "scd-nodeapp",
+  "version": "1.0.0",
+  "description": "NodeVault Application with MongoDB",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js",
+    "docker:build": "docker build -t scd-nodeapp .",
+    "docker:run": "docker run -p 3000:3000 scd-nodeapp"
+  },
   "dependencies": {
-    "dotenv": "^17.2.3",
-    "mongodb": "^7.0.0"
-  }
+    "dotenv": "^16.0.0",
+    "mongodb": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  },
+  "keywords": ["node", "mongodb", "cli"],
+  "author": "",
+  "license": "ISC"
 }
