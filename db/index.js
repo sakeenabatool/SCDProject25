@@ -119,6 +119,61 @@ function deleteRecord(id) {
   vaultEvents.emit('recordDeleted', record);
   return record;
 }
+
+function getVaultStatistics() {
+  const data = fileDB.readDB();
+  
+  if (data.length === 0) {
+    return {
+      totalRecords: 0,
+      message: "Vault is empty"
+    };
+  }
+  
+  // Find longest name
+  let longestName = "";
+  let longestNameLength = 0;
+  
+  // Find earliest and latest dates
+  let earliestDate = new Date();
+  let latestDate = new Date(0);
+  
+  // Find last modification time (from data file)
+  let lastModified = null;
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const dbFile = path.join(__dirname, '..', 'data', 'vault.json');
+    const stats = fs.statSync(dbFile);
+    lastModified = stats.mtime;
+  } catch (error) {
+    lastModified = new Date();
+  }
+  
+  data.forEach(record => {
+    // Check for longest name
+    if (record.name.length > longestNameLength) {
+      longestNameLength = record.name.length;
+      longestName = record.name;
+    }
+    
+    // Check for earliest and latest dates
+    const recordDate = new Date(record.id);
+    if (recordDate < earliestDate) earliestDate = recordDate;
+    if (recordDate > latestDate) latestDate = recordDate;
+  });
+  
+  return {
+    totalRecords: data.length,
+    lastModified: lastModified.toLocaleString(),
+    longestName: `${longestName} (${longestNameLength} characters)`,
+    earliestRecord: earliestDate.toISOString().split('T')[0],
+    latestRecord: latestDate.toISOString().split('T')[0],
+    nameLength: longestNameLength,
+    dateRange: `${earliestDate.toISOString().split('T')[0]} to ${latestDate.toISOString().split('T')[0]}`
+  };
+}
+
 module.exports = { 
   addRecord, 
   listRecords, 
@@ -127,5 +182,6 @@ module.exports = {
   searchRecords,
   sortRecords,
   exportToTextFile,
-  createManualBackup  
+  createManualBackup,
+  getVaultStatistics 
 };
