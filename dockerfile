@@ -1,14 +1,26 @@
-# Use Node.js 16 (matching your server)
-FROM node:16-alpine
+# Use Node.js 18 LTS as base image
+FROM node:18-alpine
 
-# Set working directory
+# Install MongoDB shell for debugging (optional)
+RUN apk add --no-cache mongodb-tools
+
+# Create app directory
 WORKDIR /app
 
-# Copy all application files
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application source
 COPY . .
 
-# The application doesn't have package.json, so we'll run directly with node
-# No need for npm install since there are no dependencies
+# Create necessary directories
+RUN mkdir -p data backups
 
-# Set the entry point to run the CLI application
+# Expose port (if your app becomes a web server)
+EXPOSE 3000
+
+# Default command (CLI application)
 CMD ["node", "main.js"]
