@@ -1,0 +1,42 @@
+=== NodeVault Data Export ===
+Export Date: 12/1/2025, 5:30:53 PM
+Total Records: 6
+File: export.txt
+===============================
+
+Record #1:
+  ID: 1764140822898
+  Name: Ali Raza
+  Value: 123
+  Created: 11/26/2025, 12:07:02 PM
+-----------------------------
+Record #2:
+  ID: 1764140836578
+  Name: Alina Khan
+  Value: 128
+  Created: 11/26/2025, 12:07:16 PM
+-----------------------------
+Record #3:
+  ID: 1764141795487
+  Name: ali
+  Value: 1
+  Created: 11/26/2025, 12:23:15 PM
+-----------------------------
+Record #4:
+  ID: 1764141802763
+  Name: zain
+  Value: 2
+  Created: 11/26/2025, 12:23:22 PM
+-----------------------------
+Record #5:
+  ID: 1764141811520
+  Name: sakeena
+  Value: 3
+  Created: 11/26/2025, 12:23:31 PM
+-----------------------------
+Record #6:
+  ID: 1764141822517
+  Name: fatima
+  Value: 4
+  Created: 11/26/2025, 12:23:42 PM
+-----------------------------
